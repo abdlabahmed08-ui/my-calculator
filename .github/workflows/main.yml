@@ -1,36 +1,25 @@
-name: Build APK
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
-
+name: Build
+on: [push, workflow_dispatch]
 jobs:
-  build:
+  android:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-
-      - name: Install Tools
+      - name: Install
         run: |
           pip install flet
           sudo apt-get update
           sudo apt-get install -y ninja-build libgtk-3-dev
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-
-      - name: Build APK
+      - name: Build
         run: flet build apk
-
-      - name: Upload APK
+      - name: Upload
         uses: actions/upload-artifact@v3
         with:
-          name: MyCalculatorApp
+          name: my-app
           path: build/apk/*.apk
