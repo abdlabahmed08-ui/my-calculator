@@ -1,14 +1,14 @@
 name: Build
 on: [push, workflow_dispatch]
 jobs:
-  android:
+  apk:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: Install
+      - name: Setup
         run: |
           pip install flet
           sudo apt-get update
@@ -18,8 +18,8 @@ jobs:
           channel: 'stable'
       - name: Build
         run: flet build apk
-      - name: Upload
+      - name: Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: my-app
+          name: my-app-file
           path: build/apk/*.apk
